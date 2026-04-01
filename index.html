@@ -19,154 +19,124 @@
     --text:    #1e1a14;
     --text2:   #5a5040;
     --text3:   #a09070;
-    --c0:      #1a3a6b;
-    --c1:      #b83232;
-    --c2:      #7c3aed;
-    --c3:      #b45309;
+    --c0:      #1a3a6b; --c1: #b83232; --c2: #7c3aed; --c3: #b45309;
     --shadow:  0 1px 4px rgba(30,26,20,.1);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; overflow: hidden; }
-  body { background: var(--bg); color: var(--text); font-family: 'Source Sans 3', sans-serif; font-size: 15px; }
+  body { background: var(--bg); color: var(--text); font-family: 'Source Sans 3', sans-serif; font-size: 14px; }
 
   header {
     background: var(--accent); border-bottom: 3px solid #0f2347;
-    padding: 10px 22px; display: flex; align-items: baseline; gap: 14px;
-    height: 48px;
+    padding: 0 20px; display: flex; align-items: center; gap: 14px; height: 48px;
   }
-  header h1 { font-family: 'Lora', serif; font-size: 1.25rem; color: #f5f0e8; }
-  header span { font-family: 'IBM Plex Mono', monospace; font-size: .72rem; color: rgba(245,240,232,.5); border: 1px solid rgba(245,240,232,.22); padding: 2px 8px; border-radius: 3px; }
+  header h1 { font-family: 'Lora', serif; font-size: 1.2rem; color: #f5f0e8; }
+  header span { font-family: 'IBM Plex Mono', monospace; font-size: .7rem; color: rgba(245,240,232,.5); border: 1px solid rgba(245,240,232,.2); padding: 2px 6px; border-radius: 3px; }
 
-  .main-layout {
-    display: grid;
-    grid-template-columns: 450px 1fr;
-    height: calc(100vh - 48px);
-  }
+  .main-layout { display: grid; grid-template-columns: 420px 1fr; height: calc(100vh - 48px); }
 
+  /* ── LEFT PANEL ── */
   .left-panel {
     background: var(--surface); border-right: 1px solid var(--border);
-    overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px;
+    overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px;
   }
 
   .section-label {
-    font-size: .72rem; font-weight: 600; letter-spacing: .12em; color: var(--text3);
-    text-transform: uppercase; margin-bottom: 7px; padding-bottom: 5px; border-bottom: 1px solid var(--border);
+    font-size: .65rem; font-weight: 600; letter-spacing: .1em; color: var(--text3);
+    text-transform: uppercase; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
   }
 
-  .card { background: var(--surf2); border: 1px solid var(--border); border-radius: 6px; padding: 11px 13px; box-shadow: var(--shadow); }
-  .top-row { display: flex; gap: 10px; }
-  .obj-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-  .obj-label { font-family: 'IBM Plex Mono', monospace; font-size: 1rem; color: var(--text2); }
+  .card { background: var(--surf2); border: 1px solid var(--border); border-radius: 6px; padding: 12px; box-shadow: var(--shadow); }
   
-  .toggle-grp { display: flex; border: 1.5px solid var(--border2); border-radius: 5px; overflow: hidden; }
-  .toggle-grp button {
-    background: none; border: none; color: var(--text2); font-family: 'Source Sans 3', sans-serif; 
-    font-size: .9rem; font-weight: 500; padding: 5px 13px; cursor: pointer; transition: 0.15s;
-  }
-  .toggle-grp button.active { background: var(--accent); color: #f5f0e8; }
-
-  .coeff-row { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
   .num-input {
-    width: 64px; background: var(--surface); border: 1.5px solid var(--border2);
-    border-radius: 4px; color: var(--text); font-family: 'IBM Plex Mono', monospace;
-    font-size: .95rem; padding: 5px 6px; text-align: center; outline: none;
-  }
-  .num-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(26,58,107,0.1); }
-
-  .constraint-block { margin-top: 6px; display: flex; flex-direction: column; gap: 9px; }
-  .constraint-row { display: flex; align-items: center; gap: 5px; padding: 4px 0; }
-  .c-label { font-family: 'IBM Plex Mono', monospace; font-size: .8rem; font-weight: 700; min-width: 28px; }
-  .sign-sel { background: var(--surface); border: 1.5px solid var(--border2); border-radius: 4px; font-family: 'IBM Plex Mono', monospace; padding: 4px; }
-
-  .formula-display {
-    margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: .85rem;
-    color: var(--text2); line-height: 1.6; padding: 10px; background: var(--surface); border-radius: 5px;
+    width: 60px; background: var(--surface); border: 1.5px solid var(--border2);
+    border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .9rem; padding: 4px; text-align: center;
   }
 
-  .right-panel { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
-  .graph-area { flex: 1; position: relative; background: #fdfaf4; }
+  /* Results Section in Sidebar */
+  .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 6px 10px; transition: 0.3s; }
+  .stat-box.highlight { border-color: var(--green); background: #f0fdf4; }
+  .sb-label { font-size: .6rem; font-weight: 700; color: var(--text3); text-transform: uppercase; }
+  .sb-val { font-family: 'IBM Plex Mono', monospace; font-size: .95rem; font-weight: 600; color: var(--text); }
+  
+  .corner-list { font-family: 'IBM Plex Mono', monospace; font-size: .75rem; color: var(--text2); line-height: 1.5; }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel { display: flex; flex-direction: column; height: 100%; position: relative; }
+  .graph-area { flex: 1; background: #fff; position: relative; }
   canvas#lp-canvas { display: block; width: 100%; height: 100%; }
 
-  .bottom-panel { flex-shrink: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 10px 15px; display: flex; flex-direction: column; gap: 8px; }
-  .stats-row { display: flex; gap: 8px; }
-  .stat-box { background: var(--surf2); border: 1px solid var(--border); border-radius: 5px; padding: 6px 12px; flex: 1; transition: 0.4s; }
-  .stat-box.highlight { border-color: var(--green); box-shadow: 0 0 10px rgba(22,163,74,0.3); }
-  .sb-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; color: var(--text3); }
-  .sb-val { font-family: 'IBM Plex Mono', monospace; font-size: 1rem; font-weight: 600; color: var(--green); }
+  .bottom-controls {
+    height: 70px; background: var(--surface); border-top: 1px solid var(--border);
+    display: flex; align-items: center; padding: 0 20px; gap: 20px;
+  }
 
-  .controls-row { display: flex; gap: 15px; align-items: center; }
-  .corner-box { background: var(--surf2); border: 1px solid var(--border); border-radius: 5px; padding: 6px; min-width: 180px; font-size: 0.75rem; }
-  .slider-section { flex: 1; }
-  input[type=range] { width: 100%; cursor: pointer; accent-color: var(--obj); }
+  .slider-box { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  input[type=range] { cursor: pointer; accent-color: var(--obj); width: 100%; }
 
-  .btn-show, .btn-opt { padding: 8px 16px; border-radius: 5px; border: none; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .btn-show, .btn-opt { padding: 10px 18px; border-radius: 5px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; }
   .btn-show { background: var(--accent); color: white; }
   .btn-opt { background: var(--green); color: white; display: none; }
   .btn-opt.show { display: block; }
 
-  .legend { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.7rem; display: flex; flex-direction: column; gap: 5px; }
-  .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; }
-
-  @media (max-width: 900px) {
-    .main-layout { grid-template-columns: 1fr; overflow-y: auto; }
-    .right-panel { height: 500px; }
-  }
+  .legend { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.7rem; }
+  
+  .constraint-row { display: flex; align-items: center; gap: 5px; margin-bottom: 6px; }
+  .sign-sel { background: var(--surface); border: 1.5px solid var(--border2); border-radius: 4px; padding: 3px; font-family: 'IBM Plex Mono'; }
 </style>
 </head>
 <body>
 
 <header>
   <h1>Linear Programming Explorer</h1>
-  <span>2-Variable Interactive Model · Light Academic</span>
+  <span>2-Var Academic v2.1</span>
 </header>
 
 <div class="main-layout">
   <div class="left-panel">
-    <div class="top-row">
-      <div class="card" style="flex:1.5">
-        <div class="section-label">Objective Function</div>
-        <div class="obj-row">
-          <div class="toggle-grp">
-            <button id="btn-max" class="active" onclick="setGoal('max')">Maximize</button>
-            <button id="btn-min" onclick="setGoal('min')">Minimize</button>
-          </div>
-          <span class="obj-label">Z =</span>
-        </div>
-        <div class="coeff-row">
-          <input type="number" class="num-input" id="c1" placeholder="0" oninput="onInput()">
-          <label>x₁ +</label>
-          <input type="number" class="num-input" id="c2" placeholder="0" oninput="onInput()">
-          <label>x₂</label>
-        </div>
+    <div class="card">
+      <div class="section-label">Objective & Constraints</div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+        <select id="goal" onchange="setGoal(this.value)" class="sign-sel">
+          <option value="max">Maximize</option>
+          <option value="min">Minimize</option>
+        </select>
+        <span style="font-family: 'IBM Plex Mono'">Z = </span>
+        <input type="number" class="num-input" id="c1" placeholder="x1" oninput="onInput()">
+        <input type="number" class="num-input" id="c2" placeholder="x2" oninput="onInput()">
       </div>
-
-      <div class="card" style="flex:1">
-        <div class="section-label">Settings</div>
-        <select class="nc-sel" id="nc-sel" onchange="rebuildConstraints()" style="width:100%; padding:5px; margin-bottom:8px;">
+      
+      <div id="constraint-block"></div>
+      
+      <div style="margin-top:10px; display:flex; justify-content: space-between; align-items: center;">
+        <select id="nc-sel" onchange="rebuildConstraints()" class="sign-sel">
           <option value="1">1 Constraint</option>
           <option value="2" selected>2 Constraints</option>
           <option value="3">3 Constraints</option>
           <option value="4">4 Constraints</option>
         </select>
-        <div style="display:flex; gap:5px; font-size:0.8rem;">
-          Grid: <input type="number" class="num-input" id="xmax" value="8" style="width:45px" oninput="onInput()"> 
-          x <input type="number" class="num-input" id="ymax" value="8" style="width:45px" oninput="onInput()">
-        </div>
+        <label style="font-size:0.75rem;"><input type="checkbox" id="nn-check" checked onchange="onInput()"> x₁, x₂ ≥ 0</label>
       </div>
     </div>
 
     <div class="card">
-      <div class="section-label">Functional Constraints</div>
-      <div class="constraint-block" id="constraint-block"></div>
-      <label style="display:flex; align-items:center; gap:8px; margin-top:10px; font-family:'IBM Plex Mono'; font-size:0.8rem; cursor:pointer;">
-        <input type="checkbox" id="nn-check" checked onchange="onInput()"> x₁, x₂ ≥ 0
-      </label>
+      <div class="section-label">Model Summary</div>
+      <div id="formula-display" style="font-family:'IBM Plex Mono'; font-size:0.8rem; color:var(--text2);"></div>
     </div>
 
-    <div class="card">
-      <div class="section-label">Model Summary</div>
-      <div class="formula-display" id="formula-display"></div>
+    <div class="card" id="results-card">
+      <div class="section-label">Optimization Results</div>
+      <div class="results-grid">
+        <div class="stat-box" id="box-x1"><div class="sb-label">x₁</div><div class="sb-val" id="val-x1">—</div></div>
+        <div class="stat-box" id="box-x2"><div class="sb-label">x₂</div><div class="sb-val" id="val-x2">—</div></div>
+        <div class="stat-box" style="grid-column: span 2" id="box-z">
+          <div class="sb-label">Optimal Z</div><div class="sb-val" id="val-z" style="color:var(--obj)">—</div>
+        </div>
+      </div>
+      <div class="section-label">Feasible Corner Points</div>
+      <div id="corner-list" class="corner-list"></div>
     </div>
   </div>
 
@@ -176,30 +146,19 @@
       <div class="legend" id="legend-box"></div>
     </div>
 
-    <div class="bottom-panel">
-      <div class="stats-row">
-        <div class="stat-box" id="box-x1"><div class="sb-label">x₁</div><div class="sb-val" id="val-x1">—</div></div>
-        <div class="stat-box" id="box-x2"><div class="sb-label">x₂</div><div class="sb-val" id="val-x2">—</div></div>
-        <div class="stat-box" id="box-z"><div class="sb-label">Objective Z</div><div class="sb-val" id="val-z" style="color:var(--obj)">—</div></div>
+    <div class="bottom-controls">
+      <div class="slider-box">
+        <div class="sb-label">Explore Objective (Z-Line)</div>
+        <input type="range" id="obj-slider" min="0" max="1000" value="300" oninput="onSlider()" disabled>
       </div>
-      <div class="controls-row">
-        <div class="corner-box">
-          <div class="sb-label">Corner Points</div>
-          <div id="corner-list" style="max-height:60px; overflow-y:auto;"></div>
-        </div>
-        <div class="slider-section">
-          <div class="sb-label" style="margin-bottom:4px">Z-Line Position</div>
-          <input type="range" id="obj-slider" min="0" max="100" value="30" oninput="onSlider()" disabled>
-        </div>
-        <button class="btn-show" onclick="showObjLine()">Show Z-line</button>
-        <button class="btn-opt" id="btn-opt" onclick="optimize()">⬡ Optimize</button>
-      </div>
+      <button class="btn-show" onclick="showObjLine()">Show Z-line</button>
+      <button class="btn-opt" id="btn-opt" onclick="optimize()">⬡ Optimize</button>
     </div>
   </div>
 </div>
 
 <script>
-const C_COLORS = ['#1a3a6b','#b83232','#7c3aed','#b45309'];
+const COLORS = ['#1a3a6b','#b83232','#7c3aed','#b45309'];
 let numC = 2, objActive = false, sliderVal = 0.3, optimized = false, goal = 'max';
 let corners = [], bestPt = null;
 
@@ -207,218 +166,141 @@ const canvas = document.getElementById('lp-canvas');
 const ctx = canvas.getContext('2d');
 
 function resizeCanvas() {
-    const r = canvas.parentElement.getBoundingClientRect();
-    canvas.width = r.width * devicePixelRatio;
-    canvas.height = r.height * devicePixelRatio;
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-    draw();
+  const r = canvas.parentElement.getBoundingClientRect();
+  canvas.width = r.width * devicePixelRatio;
+  canvas.height = r.height * devicePixelRatio;
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  draw();
 }
 window.addEventListener('resize', resizeCanvas);
 
 function rebuildConstraints() {
-    const container = document.getElementById('constraint-block');
-    numC = parseInt(document.getElementById('nc-sel').value);
-    let html = '';
-    for (let i = 0; i < numC; i++) {
-        html += `<div class="constraint-row" style="border-left: 4px solid ${C_COLORS[i]}; padding-left:8px">
-            <span class="c-label">C${i+1}</span>
-            <input type="number" class="num-input" id="a${i}1" placeholder="0" oninput="onInput()">
-            <label>x₁ +</label>
-            <input type="number" class="num-input" id="a${i}2" placeholder="0" oninput="onInput()">
-            <select class="sign-sel" id="s${i}" onchange="onInput()">
-                <option value="le">≤</option><option value="ge">≥</option><option value="eq">=</option>
-            </select>
-            <input type="number" class="num-input" id="b${i}" placeholder="0" oninput="onInput()">
-        </div>`;
-    }
-    container.innerHTML = html;
-    updateLegend();
-    onInput();
+  const container = document.getElementById('constraint-block');
+  numC = parseInt(document.getElementById('nc-sel').value);
+  let html = '';
+  for (let i = 0; i < numC; i++) {
+    html += `<div class="constraint-row">
+      <span style="color:${COLORS[i]}; font-weight:bold; width:20px;">C${i+1}</span>
+      <input type="number" class="num-input" id="a${i}1" placeholder="x1" oninput="onInput()">
+      <input type="number" class="num-input" id="a${i}2" placeholder="x2" oninput="onInput()">
+      <select class="sign-sel" id="s${i}" onchange="onInput()"><option value="le">≤</option><option value="ge">≥</option></select>
+      <input type="number" class="num-input" id="b${i}" placeholder="b" oninput="onInput()">
+    </div>`;
+  }
+  container.innerHTML = html;
+  onInput();
 }
 
 function getModel() {
-    const m = {
-        c: [parseFloat(document.getElementById('c1').value) || 0, parseFloat(document.getElementById('c2').value) || 0],
-        a: [], b: [], sg: [],
-        xmax: Math.max(1, parseFloat(document.getElementById('xmax').value) || 8),
-        ymax: Math.max(1, parseFloat(document.getElementById('ymax').value) || 8),
-        nn: document.getElementById('nn-check').checked
-    };
-    for (let i = 0; i < numC; i++) {
-        m.a.push([parseFloat(document.getElementById(`a${i}1`).value), parseFloat(document.getElementById(`a${i}2`).value)]);
-        m.b.push(parseFloat(document.getElementById(`b${i}`).value));
-        m.sg.push(document.getElementById(`s${i}`).value);
-    }
-    return m;
+  return {
+    c: [parseFloat(document.getElementById('c1').value) || 0, parseFloat(document.getElementById('c2').value) || 0],
+    a: Array.from({length: numC}, (_, i) => [parseFloat(document.getElementById(`a${i}1`).value), parseFloat(document.getElementById(`a${i}2`).value)]),
+    b: Array.from({length: numC}, (_, i) => parseFloat(document.getElementById(`b${i}`).value)),
+    sg: Array.from({length: numC}, (_, i) => document.getElementById(`s${i}`).value),
+    xmax: 10, ymax: 10,
+    nn: document.getElementById('nn-check').checked
+  };
 }
 
-function active(m, i) { return !isNaN(m.a[i][0]) && !isNaN(m.a[i][1]) && !isNaN(m.b[i]); }
-
-function feasible(m, x, y) {
-    if (m.nn && (x < -1e-7 || y < -1e-7)) return false;
-    for (let i = 0; i < numC; i++) {
-        if (!active(m, i)) continue;
-        const lhs = m.a[i][0] * x + m.a[i][1] * y;
-        if (m.sg[i] === 'le' && lhs > m.b[i] + 1e-7) return false;
-        if (m.sg[i] === 'ge' && lhs < m.b[i] - 1e-7) return false;
-        if (m.sg[i] === 'eq' && Math.abs(lhs - m.b[i]) > 1e-7) return false;
-    }
-    return true;
+// Fixed calculation: ensures clean rounding to 2 decimal places for Z-value stability
+function zVal(m, pt) {
+  const val = m.c[0] * pt[0] + m.c[1] * pt[1];
+  return Math.round((val + Number.EPSILON) * 100) / 100;
 }
 
 function getCorners(m) {
-    let cands = [[0, 0], [m.xmax, 0], [0, m.ymax], [m.xmax, m.ymax]];
-    let lines = [];
-    if (m.nn) { lines.push([1, 0, 0], [0, 1, 0]); }
-    for (let i = 0; i < numC; i++) if (active(m, i)) lines.push([m.a[i][0], m.a[i][1], m.b[i]]);
-
-    for (let i = 0; i < lines.length; i++) {
-        for (let j = i + 1; j < lines.length; j++) {
-            const det = lines[i][0] * lines[j][1] - lines[i][1] * lines[j][0];
-            if (Math.abs(det) > 1e-7) {
-                const px = (lines[i][2] * lines[j][1] - lines[i][1] * lines[j][2]) / det;
-                const py = (lines[i][0] * lines[j][2] - lines[i][2] * lines[j][0]) / det;
-                cands.push([px, py]);
-            }
-        }
+  let cands = [[0,0], [m.xmax,0], [0,m.ymax]];
+  let lines = m.nn ? [[1,0,0], [0,1,0]] : [];
+  for(let i=0; i<numC; i++) if(!isNaN(m.a[i][0])) lines.push([m.a[i][0], m.a[i][1], m.b[i]]);
+  
+  for(let i=0; i<lines.length; i++) {
+    for(let j=i+1; j<lines.length; j++) {
+      const d = lines[i][0]*lines[j][1] - lines[i][1]*lines[j][0];
+      if(Math.abs(d) > 1e-6) {
+        const px = (lines[i][2]*lines[j][1] - lines[i][1]*lines[j][2])/d;
+        const py = (lines[i][0]*lines[j][2] - lines[i][2]*lines[j][0])/d;
+        if(px >= -0.001 && py >= -0.001 && px <= m.xmax && py <= m.ymax) cands.push([px,py]);
+      }
     }
-    return cands.filter(([x, y]) => x >= -1e-7 && y >= -1e-7 && x <= m.xmax + 1e-7 && y <= m.ymax + 1e-7 && feasible(m, x, y));
+  }
+  return cands.filter(pt => {
+    if(m.nn && (pt[0] < -0.001 || pt[1] < -0.001)) return false;
+    return m.a.every((coeffs, i) => {
+      if(isNaN(coeffs[0])) return true;
+      const lhs = coeffs[0]*pt[0] + coeffs[1]*pt[1];
+      return m.sg[i] === 'le' ? lhs <= m.b[i] + 0.001 : lhs >= m.b[i] - 0.001;
+    });
+  });
 }
 
-function zVal(m, pt) { return m.c[0] * pt[0] + m.c[1] * pt[1]; }
-
-function PAD(canvas) { return { l: 40, r: 20, t: 20, b: 40, w: canvas.width / devicePixelRatio, h: canvas.height / devicePixelRatio }; }
-function tx(m, x, p) { return p.l + (x / m.xmax) * (p.w - p.l - p.r); }
-function ty(m, y, p) { return p.h - p.b - (y / m.ymax) * (p.h - p.t - p.b); }
-
 function draw() {
-    const m = getModel();
-    const p = PAD(canvas);
-    corners = getCorners(m);
-    bestPt = corners.reduce((prev, curr) => (goal === 'max' ? zVal(m, curr) > zVal(m, prev) : zVal(m, curr) < zVal(m, prev)) ? curr : prev, corners[0] || [0, 0]);
+  const m = getModel();
+  const r = canvas.parentElement.getBoundingClientRect();
+  const w = r.width, h = r.height;
+  const pad = 40;
+  
+  const tx = x => pad + (x / m.xmax) * (w - pad * 2);
+  const ty = y => h - pad - (y / m.ymax) * (h - pad * 2);
 
-    ctx.clearRect(0, 0, p.w, p.h);
+  ctx.clearRect(0,0,w,h);
+
+  // Axes
+  ctx.strokeStyle = '#999'; ctx.beginPath();
+  ctx.moveTo(pad, pad); ctx.lineTo(pad, h-pad); ctx.lineTo(w-pad, h-pad); ctx.stroke();
+
+  corners = getCorners(m);
+  if(corners.length > 2) {
+    const center = corners.reduce((a,b)=>[a[0]+b[0], a[1]+b[1]], [0,0]).map(v=>v/corners.length);
+    const sorted = [...corners].sort((a,b)=> Math.atan2(a[1]-center[1], a[0]-center[0]) - Math.atan2(b[1]-center[1], b[0]-center[0]));
+    ctx.fillStyle = 'rgba(22,163,74,0.15)'; ctx.beginPath();
+    ctx.moveTo(tx(sorted[0][0]), ty(sorted[0][1]));
+    sorted.forEach(p => ctx.lineTo(tx(p[0]), ty(p[1])));
+    ctx.closePath(); ctx.fill();
+  }
+
+  // Objective Line
+  if(objActive) {
+    const allZ = corners.length ? corners.map(p => zVal(m,p)) : [0, 100];
+    const zMin = Math.min(...allZ), zMax = Math.max(...allZ);
+    const curZ = zMin + sliderVal * (zMax - zMin);
     
-    // Axes and Grid
-    ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
-    for (let i = 0; i <= m.xmax; i++) { ctx.beginPath(); ctx.moveTo(tx(m, i, p), p.t); ctx.lineTo(tx(m, i, p), p.h - p.b); ctx.stroke(); }
-    for (let i = 0; i <= m.ymax; i++) { ctx.beginPath(); ctx.moveTo(p.l, ty(m, i, p)); ctx.lineTo(p.w - p.r, ty(m, i, p)); ctx.stroke(); }
-
-    // Feasible Region (Simple Polygon Fill)
-    if (corners.length > 2) {
-        const center = corners.reduce((a, b) => [a[0] + b[0], a[1] + b[1]], [0, 0]).map(v => v / corners.length);
-        const sorted = [...corners].sort((a, b) => Math.atan2(a[1] - center[1], a[0] - center[0]) - Math.atan2(b[1] - center[1], b[0] - center[0]));
-        ctx.fillStyle = 'rgba(22, 163, 74, 0.2)';
-        ctx.beginPath(); ctx.moveTo(tx(m, sorted[0][0], p), ty(m, sorted[0][1], p));
-        sorted.forEach(pt => ctx.lineTo(tx(m, pt[0], p), ty(m, pt[1], p)));
-        ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = 'var(--obj)'; ctx.setLineDash([5,5]); ctx.beginPath();
+    if(m.c[1] !== 0) {
+      ctx.moveTo(tx(0), ty(curZ/m.c[1])); ctx.lineTo(tx(m.xmax), ty((curZ-m.c[0]*m.xmax)/m.c[1]));
     }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
 
-    // Constraints
-    for (let i = 0; i < numC; i++) {
-        if (!active(m, i)) continue;
-        ctx.strokeStyle = C_COLORS[i]; ctx.lineWidth = 3;
-        ctx.beginPath();
-        let pts = [];
-        if (m.a[i][0] !== 0) { pts.push([m.b[i]/m.a[i][0], 0]); pts.push([(m.b[i]-m.a[i][1]*m.ymax)/m.a[i][0], m.ymax]); }
-        if (m.a[i][1] !== 0) { pts.push([0, m.b[i]/m.a[i][1]]); pts.push([m.xmax, (m.b[i]-m.a[i][0]*m.xmax)/m.a[i][1]]); }
-        pts = pts.filter(pt => pt[0] >= -0.1 && pt[0] <= m.xmax + 0.1 && pt[1] >= -0.1 && pt[1] <= m.ymax + 0.1);
-        if (pts.length >= 2) { ctx.moveTo(tx(m, pts[0][0], p), ty(m, pts[0][1], p)); ctx.lineTo(tx(m, pts[1][0], p), ty(m, pts[1][1], p)); ctx.stroke(); }
-    }
-
-    if (objActive) {
-        const allZ = corners.map(pt => zVal(m, pt));
-        const zMin = Math.min(...allZ, 0), zMax = Math.max(...allZ, 10);
-        const currentZ = zMin + sliderVal * (zMax - zMin);
-        ctx.strokeStyle = 'var(--obj)'; ctx.setLineDash([5, 5]); ctx.lineWidth = 2;
-        ctx.beginPath();
-        let zPts = [];
-        if (m.c[0] !== 0) { zPts.push([currentZ/m.c[0], 0]); zPts.push([(currentZ-m.c[1]*m.ymax)/m.c[0], m.ymax]); }
-        if (m.c[1] !== 0) { zPts.push([0, currentZ/m.c[1]]); zPts.push([m.xmax, (currentZ-m.c[0]*m.xmax)/m.c[1]]); }
-        zPts = zPts.filter(pt => pt[0] >= -0.1 && pt[0] <= m.xmax + 0.1 && pt[1] >= -0.1 && pt[1] <= m.ymax + 0.1);
-        if (zPts.length >= 2) { ctx.moveTo(tx(m, zPts[0][0], p), ty(m, zPts[0][1], p)); ctx.lineTo(tx(m, zPts[1][0], p), ty(m, zPts[1][1], p)); ctx.stroke(); }
-        ctx.setLineDash([]);
-        document.getElementById('val-z').innerText = currentZ.toFixed(2);
-    }
-
-    // Corner point dots
-    corners.forEach(pt => {
-        const isBest = optimized && Math.abs(pt[0]-bestPt[0]) < 0.01 && Math.abs(pt[1]-bestPt[1]) < 0.01;
-        ctx.fillStyle = isBest ? 'var(--green)' : '#555';
-        ctx.beginPath(); ctx.arc(tx(m, pt[0], p), ty(m, pt[1], p), isBest ? 6 : 4, 0, Math.PI * 2); ctx.fill();
-    });
-
-    updateUI(m);
+  updateUI(m);
 }
 
 function updateUI(m) {
-    const list = document.getElementById('corner-list');
-    list.innerHTML = corners.map(pt => `<div>(${pt[0].toFixed(1)}, ${pt[1].toFixed(1)}) → Z: ${zVal(m, pt).toFixed(1)}</div>`).join('');
-    
-    let formula = `<b>${goal.toUpperCase()} Z = ${m.c[0]}x₁ + ${m.c[1]}x₂</b><br>Subject to:<br>`;
-    for (let i = 0; i < numC; i++) if (active(m, i)) formula += `${m.a[i][0]}x₁ + ${m.a[i][1]}x₂ ${m.sg[i]==='le'?'≤':m.sg[i]==='ge'?'≥':'='} ${m.b[i]}<br>`;
-    document.getElementById('formula-display').innerHTML = formula;
-
-    if (optimized) {
-        document.getElementById('val-x1').innerText = bestPt[0].toFixed(2);
-        document.getElementById('val-x2').innerText = bestPt[1].toFixed(2);
-        document.getElementById('val-z').innerText = zVal(m, bestPt).toFixed(2);
-    }
+  document.getElementById('corner-list').innerHTML = corners.map(p => `• (${p[0].toFixed(2)}, ${p[1].toFixed(2)}) → Z: ${zVal(m,p).toFixed(2)}`).join('<br>');
+  if(optimized && bestPt) {
+    document.getElementById('val-x1').innerText = bestPt[0].toFixed(2);
+    document.getElementById('val-x2').innerText = bestPt[1].toFixed(2);
+    document.getElementById('val-z').innerText = zVal(m, bestPt).toFixed(2);
+  }
 }
 
-function updateLegend() {
-    let html = '';
-    for (let i = 0; i < numC; i++) html += `<div class="legend-item"><div style="width:15px;height:3px;background:${C_COLORS[i]}"></div> C${i+1}</div>`;
-    html += `<div class="legend-item"><div style="width:15px;height:3px;border-top:2px dashed var(--obj)"></div> Z-Line</div>`;
-    document.getElementById('legend-box').innerHTML = html;
-}
-
-function setGoal(g) { 
-    goal = g; 
-    document.getElementById('btn-max').classList.toggle('active', g==='max');
-    document.getElementById('btn-min').classList.toggle('active', g==='min');
-    onInput(); 
-}
-
+function setGoal(v) { goal = v; onInput(); }
 function onInput() { optimized = false; clearHL(); draw(); }
-function onSlider() { sliderVal = document.getElementById('obj-slider').value / 100; optimized = false; clearHL(); draw(); }
 function clearHL() { document.querySelectorAll('.stat-box').forEach(b => b.classList.remove('highlight')); }
+function onSlider() { sliderVal = document.getElementById('obj-slider').value / 1000; draw(); }
 
 function showObjLine() {
-    objActive = true;
-    document.getElementById('obj-slider').disabled = false;
-    document.getElementById('btn-opt').classList.add('show');
-    draw();
+  objActive = true;
+  document.getElementById('obj-slider').disabled = false;
+  document.getElementById('btn-opt').classList.add('show');
+  draw();
 }
 
 function optimize() {
-    const m = getModel();
-    corners = getCorners(m);
-    bestPt = corners.reduce((prev, curr) => (goal === 'max' ? zVal(m, curr) > zVal(m, prev) : zVal(m, curr) < zVal(m, prev)) ? curr : prev, corners[0]);
-    
-    const allZ = corners.map(pt => zVal(m, pt));
-    const zMin = Math.min(...allZ, 0), zMax = Math.max(...allZ, 10);
-    const targetVal = (zVal(m, bestPt) - zMin) / (zMax - zMin);
-    
-    let start = null;
-    const duration = 700;
-    const startVal = sliderVal;
-
-    function step(timestamp) {
-        if (!start) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3);
-        sliderVal = startVal + (targetVal - startVal) * ease;
-        document.getElementById('obj-slider').value = sliderVal * 100;
-        draw();
-        if (progress < 1) window.requestAnimationFrame(step);
-        else {
-            optimized = true;
-            document.querySelectorAll('.stat-box').forEach(b => b.classList.add('highlight'));
-            draw();
-        }
-    }
-    window.requestAnimationFrame(step);
+  const m = getModel();
+  bestPt = corners.reduce((prev, curr) => (goal === 'max' ? zVal(m, curr) > zVal(m, prev) : zVal(m, curr) < zVal(m, prev)) ? curr : prev, corners[0]);
+  optimized = true;
+  document.querySelectorAll('.stat-box').forEach(b => b.classList.add('highlight'));
+  draw();
 }
 
 window.onload = () => { rebuildConstraints(); resizeCanvas(); };
