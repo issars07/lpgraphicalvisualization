@@ -92,6 +92,18 @@
   }
   .num-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(26,58,107,.12); }
 
+  /* Text name inputs */
+  .name-input {
+    background: var(--surface); border: 1.5px solid var(--border2);
+    border-radius: 4px; color: var(--text); font-family: 'Source Sans 3', sans-serif;
+    font-size: .88rem; padding: 4px 8px; outline: none;
+    transition: border-color .2s, box-shadow .2s; width: 100%;
+  }
+  .name-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(26,58,107,.12); }
+  .name-input::placeholder { color: var(--text3); font-style: italic; }
+  .name-row { display: flex; align-items: center; gap: 7px; margin-top: 6px; }
+  .name-row label { font-family: 'IBM Plex Mono', monospace; font-size: .8rem; color: var(--text3); white-space: nowrap; flex-shrink: 0; }
+
   /* Settings card */
   .nc-row { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
   .nc-row label { font-family: 'IBM Plex Mono', monospace; font-size: .9rem; color: var(--text2); }
@@ -294,6 +306,10 @@
       <!-- Objective -->
       <div class="card" style="flex:1.4">
         <div class="section-label">Objective Function</div>
+        <div class="name-row">
+          <label>Name:</label>
+          <input type="text" class="name-input" id="obj-name" placeholder="e.g., Revenue" oninput="onInput()">
+        </div>
         <div class="obj-row">
           <div class="toggle-grp">
             <button id="btn-max" class="active" onclick="setGoal('max')">Maximize</button>
@@ -327,7 +343,6 @@
           <label>y max:</label>
           <input type="number" class="num-input" id="ymax" value="8" oninput="onInput()" style="width:56px">
         </div>
-        <button class="btn-clear" onclick="clearAll()">✕ Clear All</button>
       </div>
     </div>
 
@@ -361,6 +376,7 @@
         <div class="sb-label">Corner Points (Feasible Vertices)</div>
         <div class="corner-list" id="corner-list"></div>
       </div>
+      <button class="btn-clear" onclick="clearAll()" style="margin-top:10px;">✕ Clear All</button>
     </div>
 
   </div><!-- /left-panel -->
@@ -660,22 +676,32 @@ function updateUI(m) {
 
 function updateStats(m) {
   const [x1,x2]=bestPt;
+  // Update labels dynamically from user-entered names
+  const objName = document.getElementById('obj-name')?.value.trim() || 'Objective Z';
+  const c0name  = document.getElementById('cname0')?.value.trim() || 'Resource 1 Used';
+  const c1name  = document.getElementById('cname1')?.value.trim() || 'Resource 2 Used';
+  document.querySelector('#box-r1 .sb-label').textContent = c0name;
+  document.querySelector('#box-r2 .sb-label').textContent = c1name;
+  document.querySelector('#box-z .sb-label').textContent  = objName;
+
   document.getElementById('val-x1').textContent=x1.toFixed(3);
   document.getElementById('val-x2').textContent=x2.toFixed(3);
   const r1=active(m,0)?m.a[0][0]*x1+m.a[0][1]*x2:null;
   const r2=active(m,1)?m.a[1][0]*x1+m.a[1][1]*x2:null;
-  document.getElementById('val-r1').textContent=r1!==null?`${r1.toFixed(2)}/${m.b[0]}`:'—';
-  document.getElementById('val-r2').textContent=r2!==null?`${r2.toFixed(2)}/${m.b[1]}`:'—';
+  document.getElementById('val-r1').textContent=r1!==null?`${r1.toFixed(2)} / ${m.b[0]}`:'—';
+  document.getElementById('val-r2').textContent=r2!==null?`${r2.toFixed(2)} / ${m.b[1]}`:'—';
   document.getElementById('val-z').textContent=zVal(m,bestPt).toFixed(3);
 }
 
 function updateFormula(m) {
   const c1=isNaN(m.c[0])?'?':m.c[0], c2=isNaN(m.c[1])?'?':m.c[1];
   const gl=goal==='max'?'Maximize':'Minimize';
-  let html=`<span class="f-obj">${gl} Z = ${c1}x₁ + ${c2}x₂</span><br>Subject to:`;
+  const objName = document.getElementById('obj-name')?.value.trim() || 'Z';
+  let html=`<span class="f-obj">${gl} ${objName} = ${c1}x₁ + ${c2}x₂</span><br>Subject to:`;
   for(let i=0;i<numC;i++){
     const [a,b]=m.a[i], r=m.b[i], s=['≤','≥','='][['le','ge','eq'].indexOf(m.sg[i])];
-    html+=`<br><span class="f-c${i}">&nbsp;&nbsp;${isNaN(a)?'?':a}x₁ + ${isNaN(b)?'?':b}x₂ ${s} ${isNaN(r)?'?':r}</span>`;
+    const cname = document.getElementById(`cname${i}`)?.value.trim() || C_NAMES[i];
+    html+=`<br><span class="f-c${i}">&nbsp;&nbsp;[${cname}] ${isNaN(a)?'?':a}x₁ + ${isNaN(b)?'?':b}x₂ ${s} ${isNaN(r)?'?':r}</span>`;
   }
   html+=`<br><span class="f-nn">&nbsp;&nbsp;x₁,x₂ ≥ 0${m.nn?'':' (not enforced)'}</span>`;
   document.getElementById('formula-display').innerHTML=html;
@@ -691,9 +717,13 @@ function updateCornerList(m) {
 }
 
 function updateLegend() {
+  const objName = document.getElementById('obj-name')?.value.trim() || 'Objective Fn.';
   let html='';
-  for(let i=0;i<numC;i++) html+=`<div class="legend-item"><div class="legend-line" style="background:${C_COLORS[i]}"></div><span>Constraint ${i+1}</span></div>`;
-  html+=`<div class="legend-item"><div class="legend-line" style="background:var(--obj)"></div><span>Objective Fn.</span></div>`;
+  for(let i=0;i<numC;i++){
+    const cname = document.getElementById(`cname${i}`)?.value.trim() || `Constraint ${i+1}`;
+    html+=`<div class="legend-item"><div class="legend-line" style="background:${C_COLORS[i]}"></div><span>${cname}</span></div>`;
+  }
+  html+=`<div class="legend-item"><div class="legend-line" style="background:var(--obj)"></div><span>${objName}</span></div>`;
   html+=`<div class="legend-item"><div class="legend-swatch"></div><span>Feasible Region</span></div>`;
   document.getElementById('legend-box').innerHTML=html;
 }
@@ -723,7 +753,7 @@ function toggleNN() {
   optimized=false; clearHL(); draw();
 }
 
-function onInput() { optimized=false; clearHL(); syncButtons(); draw(); }
+function onInput() { optimized=false; clearHL(); updateLegend(); syncButtons(); draw(); }
 
 function onSlider() {
   sliderVal=+document.getElementById('obj-slider').value/100;
@@ -773,7 +803,7 @@ function clearHL() {
 
 function rebuildConstraints() {
   // Save current values before wiping DOM
-  const savedA = [], savedB = [], savedS = [];
+  const savedA = [], savedB = [], savedS = [], savedNames = [];
   for(let i=0;i<4;i++){
     savedA.push([
       document.getElementById(`a${i}1`)?.value ?? '',
@@ -781,6 +811,7 @@ function rebuildConstraints() {
     ]);
     savedB.push(document.getElementById(`b${i}`)?.value ?? '');
     savedS.push(document.getElementById(`s${i}`)?.value ?? 'le');
+    savedNames.push(document.getElementById(`cname${i}`)?.value ?? '');
   }
 
   numC = +document.getElementById('nc-sel').value;
@@ -788,9 +819,23 @@ function rebuildConstraints() {
   block.innerHTML = '';
 
   for(let i=0;i<numC;i++){
-    const row=document.createElement('div');
-    row.className=`constraint-row c-color-${i}`;
-    row.innerHTML=`
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;flex-direction:column;gap:4px;';
+
+    // Name row
+    const nameRow = document.createElement('div');
+    nameRow.className = 'name-row';
+    nameRow.style.cssText = `border-left:3px solid ${C_COLORS[i]};padding-left:7px;`;
+    nameRow.innerHTML = `
+      <label style="color:${C_COLORS[i]};font-weight:600;">${C_NAMES[i]} Name:</label>
+      <input type="text" class="name-input" id="cname${i}" placeholder="e.g., Labor hours" oninput="onInput()" style="flex:1;">
+    `;
+    wrap.appendChild(nameRow);
+
+    // Coefficient row
+    const row = document.createElement('div');
+    row.className = `constraint-row c-color-${i}`;
+    row.innerHTML = `
       <span class="c-label">${C_NAMES[i]}:</span>
       <input type="number" class="num-input" id="a${i}1" placeholder="0" oninput="onInput()">
       <label>x₁ +</label>
@@ -801,16 +846,18 @@ function rebuildConstraints() {
       </select>
       <input type="number" class="num-input" id="b${i}" placeholder="0" oninput="onInput()">
     `;
-    block.appendChild(row);
-    // Restore saved values into the newly created inputs
+    wrap.appendChild(row);
+    block.appendChild(wrap);
+
+    // Restore saved values
     if(savedA[i][0]) document.getElementById(`a${i}1`).value = savedA[i][0];
     if(savedA[i][1]) document.getElementById(`a${i}2`).value = savedA[i][1];
     if(savedB[i])    document.getElementById(`b${i}`).value  = savedB[i];
     if(savedS[i])    document.getElementById(`s${i}`).value  = savedS[i];
+    if(savedNames[i]) document.getElementById(`cname${i}`).value = savedNames[i];
   }
 
   updateLegend();
-  // Defer draw one tick so all inputs are fully in the DOM
   setTimeout(() => { optimized=false; clearHL(); syncButtons(); draw(); }, 0);
 }
 
@@ -822,14 +869,16 @@ function clearHL() {
 
 function clearAll() {
   document.getElementById('c1').value=''; document.getElementById('c2').value='';
+  document.getElementById('obj-name').value='';
   for(let i=0;i<4;i++){
     ['a'+i+'1','a'+i+'2','b'+i].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
     const s=document.getElementById('s'+i); if(s)s.value='le';
+    const n=document.getElementById('cname'+i); if(n)n.value='';
   }
   document.getElementById('xmax').value=8; document.getElementById('ymax').value=8;
   document.getElementById('obj-slider').value=30;
   objActive=false; sliderVal=0.3; optimized=false;
-  clearHL(); syncButtons(); draw();
+  clearHL(); updateLegend(); syncButtons(); draw();
 }
 
 // ─── Tooltip ─────────────────────────────────────────────────
